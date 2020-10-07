@@ -29,6 +29,23 @@ const LocationLinks = ({ locations }) => {
   );
 };
 
+const NavLinkList = ({ mobile = false }) => {
+  const style = `${
+    mobile ? 'block ' : ''
+  }px-3 py-2 rounded-md text-sm font-medium text-gray-300 focus:outline-none focus:bg-gray-700`;
+  return (
+    <>
+      <NavLink href="/" activeClassName="bg-gray-900">
+        <a className={style}>Dashboard</a>
+      </NavLink>
+      <LocationLinks />
+      <NavLink href="/raw-data" activeClassName="bg-gray-900">
+        <a className={style}>Raw Data</a>
+      </NavLink>
+    </>
+  );
+};
+
 function Navbar() {
   const [isMenuOpen, setMenu] = useState(false);
 
@@ -52,17 +69,7 @@ function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <NavLink href="/" activeClassName="bg-gray-900">
-                  <a className="px-3 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:text-white focus:bg-gray-700">
-                    Home
-                  </a>
-                </NavLink>
-                <LocationLinks />
-                <NavLink href="/raw-data" activeClassName="bg-gray-900">
-                  <a className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">
-                    Raw Data
-                  </a>
-                </NavLink>
+                <NavLinkList />
               </div>
             </div>
           </div>
@@ -103,16 +110,7 @@ function Navbar() {
       </div>
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link href="/">
-            <a className="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">
-              Home
-            </a>
-          </Link>
-          <Link href="/raw-data">
-            <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">
-              Raw Data
-            </a>
-          </Link>
+          <NavLinkList mobile={true} />
         </div>
       </div>
     </nav>
