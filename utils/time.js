@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
+import moment from 'moment';
 
 const formatFromDB = (dbTime) => {
-  return dayjs(dbTime).format("DD.MM.YYYY HH:mm");
+  return moment(dbTime).format('DD.MM.YYYY HH:mm');
 };
 
 export { formatFromDB };
