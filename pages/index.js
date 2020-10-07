@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import Navbar from '../components/navbar';
 import Title from '../components/title.component';
-import Location from '../components/location';
+import Location from '../components/location.component';
 
 function Home({ data }) {
   return (

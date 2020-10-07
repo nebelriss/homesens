@@ -1,4 +1,4 @@
-import Navbar from '../components/navbar';
+import Navbar from '../components/navbar.component';
 import '../styles/tailwind.css';
 
 function MyApp({ Component, pageProps }) {
