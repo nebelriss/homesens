@@ -1,7 +1,6 @@
 import React, { Children, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getLocations } from '../controllers/data';
 
 const NavLink = ({ children, activeClassName, ...props }) => {
   const { asPath } = useRouter();
