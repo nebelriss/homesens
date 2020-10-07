@@ -1,4 +1,4 @@
-import { getLocations } from "../../../controllers/data";
+import { getLocations } from '../../../controllers/data';
 
 export const config = {
   api: {
@@ -10,7 +10,7 @@ export default async (req, res) => {
   const { method, body } = req;
 
   switch (method) {
-    case "GET":
+    case 'GET':
       try {
         const result = await getLocations();
         res.sendStatusCode = 200;
@@ -20,12 +20,12 @@ export default async (req, res) => {
         res.send(e);
       }
       break;
-    case "POST":
+    case 'POST':
       res.statusCode = 200;
-      res.send("post working");
+      res.send('post working');
       break;
     default:
-      res.setHeader("Allow", ["GET", "POST"]);
+      res.setHeader('Allow', ['GET', 'POST']);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 };

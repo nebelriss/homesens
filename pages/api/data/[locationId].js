@@ -1,4 +1,4 @@
-import { getLocationById } from '../../../controllers/data';
+import { getDataByLocation } from '../../../controllers/data';
 
 export default async (req, res) => {
   const {
@@ -10,7 +10,7 @@ export default async (req, res) => {
   switch (method) {
     case 'GET':
       try {
-        const result = await getLocationById(locationId);
+        const result = await getDataByLocation(locationId);
         res.sendStatusCode = 200;
         res.json(result);
       } catch (e) {

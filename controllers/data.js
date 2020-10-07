@@ -1,4 +1,4 @@
-import { Client } from "pg";
+import { Client } from 'pg';
 
 const getAllData = () => {
   const client = new Client();
@@ -27,22 +27,22 @@ const getAllData = () => {
         if (err) reject(err);
         client.end();
         resolve(result.rows);
-      }
+      },
     );
   });
 };
 
-const getLocationByID = (id) => {
+const getLocationById = (id) => {
   const client = new Client();
   client.connect();
 
   return new Promise(async (resolve, reject) => {
     try {
       const res = await client.query(
-        `SELECT * FROM locations WHERE id = ${id}`
+        `SELECT id, name, in_or_out, created_at FROM locations WHERE id = ${id}`,
       );
       client.end();
-      resolve(res);
+      resolve(res.rows[0]);
     } catch (e) {
       client.end();
       reject(e);
@@ -57,7 +57,7 @@ const getLocations = () => {
   return new Promise(async (resolve, reject) => {
     try {
       const resLocation = await client.query(
-        `SELECT id, name, in_or_out, created_at FROM locations;`
+        `SELECT id, name, in_or_out, created_at FROM locations;`,
       );
       client.end();
       resolve(resLocation);
@@ -68,23 +68,40 @@ const getLocations = () => {
   });
 };
 
-const getDataByLocation = async (location) => {
-  const locations = await getLocations();
-
+const getDataByLocation = async (locationId) => {
   const client = new Client();
   client.connect();
 
-  const result = {};
-
-  const newRes = await Promise.all(
-    locations.rows.map((location) => {
-      return client.query(`SELECT * FROM data WHERE location = ${location.id}`);
-    })
-  );
-
-  console.log(result);
-  //console.log(newRes);
-  return Promise.resolve(newRes);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await client.query(
+        `SELECT
+          d.id,
+          d.location AS location_id,
+          l.name AS LOCATION,
+          l.in_or_out,
+          s.id AS sensor_id,
+          s.type AS sensor_type,
+          d.temperature,
+          d.humidity,
+          d.barometric_pressure,
+          d.created_at
+        FROM
+          DATA d
+          INNER JOIN locations l ON l.id = d.location
+          INNER JOIN sensors s ON s.id = d.sensor
+        WHERE
+          d.location = ${locationId}
+        ORDER BY
+          created_at DESC;`,
+      );
+      client.end();
+      resolve(data);
+    } catch (e) {
+      client.end();
+      reject(e);
+    }
+  });
 };
 
 const getNewestData = () => {
@@ -93,12 +110,12 @@ const getNewestData = () => {
 
   return new Promise((resolve, reject) => {
     client.query(
-      "SELECT * FROM data ORDER BY created_at DESC LIMIT 1",
+      'SELECT * FROM data ORDER BY created_at DESC LIMIT 1',
       (err, result) => {
         if (err) reject(err);
         client.end();
         resolve(result);
-      }
+      },
     );
   });
 };
@@ -139,7 +156,7 @@ const getNewestDataWithLocations = () => {
           summary s
           INNER JOIN locations l ON l.id = s.location
         WHERE
-          s.rk = 1`
+          s.rk = 1`,
       );
       client.end();
       resolve(data.rows);
@@ -154,6 +171,7 @@ export {
   getAllData,
   getDataByLocation,
   getLocations,
+  getLocationById,
   getNewestData,
   getNewestDataWithLocations,
 };

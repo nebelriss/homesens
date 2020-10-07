@@ -21,6 +21,14 @@ const NavLink = ({ children, activeClassName, ...props }) => {
   );
 };
 
+const LocationLinks = ({ locations }) => {
+  return (
+    <>{/* {locations.map((loc) => (
+        <div>{loc.name}</div>
+      ))} */}</>
+  );
+};
+
 function Navbar() {
   const [isMenuOpen, setMenu] = useState(false);
 
@@ -49,6 +57,7 @@ function Navbar() {
                     Home
                   </a>
                 </NavLink>
+                <LocationLinks />
                 <NavLink href="/raw-data" activeClassName="bg-gray-900">
                   <a className="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">
                     Raw Data
