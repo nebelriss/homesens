@@ -1,3 +1,4 @@
+// import Head from 'next/head';
 import Navbar from '../components/navbar.component';
 import '../styles/tailwind.css';
 
@@ -5,7 +6,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <div>
       <Navbar />
-      <Component {...pageProps} />
+      <main>
+        <Component {...pageProps} />
+      </main>
     </div>
   );
 }
