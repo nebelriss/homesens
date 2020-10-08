@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Title from '../../components/title.component';
 
 const Location = ({ data, curLocation, locationId }) => {
