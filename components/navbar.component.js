@@ -21,24 +21,15 @@ const NavLink = ({ children, activeClassName, ...props }) => {
   );
 };
 
-const LocationLinks = ({ locations }) => {
-  return (
-    <>{/* {locations.map((loc) => (
-        <div>{loc.name}</div>
-      ))} */}</>
-  );
-};
-
 const NavLinkList = ({ mobile = false }) => {
   const style = `${
     mobile ? 'block ' : ''
-  }px-3 py-2 rounded-md text-sm font-medium text-gray-300 focus:outline-none focus:bg-gray-700`;
+  }px-3 py-2 rounded-md text-sm font-medium text-gray-300 focus:outline-none focus:bg-gray-700 hover:text-white hover:bg-gray-700`;
   return (
     <>
       <NavLink href="/" activeClassName="bg-gray-900">
         <a className={style}>Dashboard</a>
       </NavLink>
-      <LocationLinks />
       <NavLink href="/raw-data" activeClassName="bg-gray-900">
         <a className={style}>Raw Data</a>
       </NavLink>
