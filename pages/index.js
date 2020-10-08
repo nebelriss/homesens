@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Title from '../components/title.component';
 import Location from '../components/location.component';
 
