@@ -1,5 +1,31 @@
 import { Client } from 'pg';
 
+const addData = (data) => {
+  const client = new Client();
+  client.connect();
+
+  const { temperature, humidity, sensor, location, barometric_pressure } = data;
+
+  const query = `INSERT INTO DATA (
+          temperature, humidity, sensor, location, barometric_pressure
+        ) 
+        VALUES
+          (${temperature}, ${humidity}, ${sensor}, ${location}, ${
+    barometric_pressure || null
+  }) RETURNING *;`;
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const res = await client.query(query);
+      client.end();
+      resolve(res.rows[0]);
+    } catch (e) {
+      client.end();
+      reject(e);
+    }
+  });
+};
+
 const getAllData = () => {
   const client = new Client();
   client.connect();
@@ -96,7 +122,7 @@ const getDataByLocation = async (locationId) => {
           created_at DESC;`,
       );
       client.end();
-      resolve(data);
+      resolve(data.rows);
     } catch (e) {
       client.end();
       reject(e);
@@ -168,6 +194,7 @@ const getNewestDataWithLocations = () => {
 };
 
 export {
+  addData,
   getAllData,
   getDataByLocation,
   getLocations,

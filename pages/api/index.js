@@ -1,4 +1,4 @@
-import { getAllData } from '../../controllers/data';
+import { getAllData, addData } from '../../controllers/data';
 
 export const config = {
   api: {
@@ -6,7 +6,7 @@ export const config = {
   },
 };
 
-export default (req, res) => {
+export default async (req, res) => {
   const { method, body } = req;
 
   switch (method) {
@@ -16,14 +16,20 @@ export default (req, res) => {
           res.sendStatusCode = 200;
           res.json(result);
         })
-        .catch((err) => {
+        .catch((e) => {
           res.statusCode = 400;
-          res.send(err);
+          res.send(e);
         });
       break;
     case 'POST':
-      res.statusCode = 200;
-      res.send('post working');
+      try {
+        const result = await addData(body);
+        res.statusCode = 200;
+        res.send(result);
+      } catch (e) {
+        res.statusCode = 400;
+        res.send(e);
+      }
       break;
     default:
       res.setHeader('Allow', ['GET', 'POST']);
