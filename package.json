@@ -8,13 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "dotenv": "^8.2.0",
     "moment": "^2.29.1",
     "next": "9.5.3",
     "pg": "^8.4.0",
     "react": "16.13.1",
+    "react-chartjs-2": "^2.10.0",
     "react-dom": "16.13.1",
-    "tailwindcss": "^1.8.11",
-    "victory": "^35.1.1"
+    "tailwindcss": "^1.8.11"
   }
 }
