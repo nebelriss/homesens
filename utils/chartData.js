@@ -1,14 +1,14 @@
 import { formatFromDB, getDateFromDateTime } from './time';
 
-const getLast24h = (data) => {
-  const formatedData = formatTemperaturePerDay(data);
+const getLast24h = (data, options) => {
+  const formatedData = formatTemperaturePerDay(data, options);
   return {
     labels: Object.keys(formatedData),
     data: Object.values(formatedData),
   };
 };
 
-const formatTemperaturePerDay = (data) => {
+const formatTemperaturePerDay = (data, options) => {
   const result = data.reduce((result, entry) => {
     const date = getDateFromDateTime(entry.created_at);
     if (!result[date]) {
@@ -24,7 +24,7 @@ const formatTemperaturePerDay = (data) => {
     parseInt(
       Math.round(
         result[key].reduce(
-          (orig, item) => orig + parseInt(item.temperature),
+          (orig, item) => orig + parseInt(item[options.type]),
           0,
         ) / result[key].length,
       ),
