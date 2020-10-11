@@ -3,8 +3,8 @@ import { formatFromDB, getDateFromDateTime } from './time';
 const getLast24h = (data, options) => {
   const formatedData = formatTemperaturePerDay(data, options);
   return {
-    labels: Object.keys(formatedData),
-    data: Object.values(formatedData),
+    labels: Object.keys(formatedData).reverse(),
+    data: Object.values(formatedData).reverse(),
   };
 };
 
