@@ -2,7 +2,6 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 
 const LineChart = ({ data }) => {
-  console.log(data.color);
   const chartData = {
     labels: data.labels,
     datasets: [
@@ -31,7 +30,7 @@ const LineChart = ({ data }) => {
   };
   return (
     <div>
-      <Line data={chartData} width={400} height={400} />
+      <Line data={chartData} />
     </div>
   );
 };

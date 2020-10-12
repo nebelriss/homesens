@@ -4,7 +4,7 @@ import LineChart from '../../components/linechart.component';
 import { getLast24h } from '../../utils/chartData';
 import { lightBlue, lightGreen } from '../../utils/chartColors';
 
-const Location = ({ data, curLocation, locationId }) => {
+const Location = ({ data, curLocation }) => {
   const formatedTempData = getLast24h(data, { type: 'temperature' });
   const formatedHumData = getLast24h(data, { type: 'humidity' });
   formatedTempData['name'] = 'Temperature';
@@ -14,7 +14,7 @@ const Location = ({ data, curLocation, locationId }) => {
   return (
     <div>
       <Title>{curLocation.name}</Title>
-      <div className="max-w-screen-md">
+      <div>
         <LineChart data={formatedTempData} />
         <LineChart data={formatedHumData} />
       </div>
@@ -30,7 +30,7 @@ export async function getServerSideProps(context) {
   const curLocation = await resLoc.json();
   const resData = await fetch(`http://localhost:3000/api/data/${locationId}`);
   const data = await resData.json();
-  return { props: { data, curLocation, locationId } };
+  return { props: { data, curLocation } };
 }
 
 export default Location;
