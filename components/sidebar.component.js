@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faTable } from '@fortawesome/free-solid-svg-icons';
 
-const NavLink = ({ children, style, icon, ...props }) => {
+const NavLink = ({ children, style, icon, clickAction, ...props }) => {
   const { asPath } = useRouter();
 
   const className =
@@ -15,7 +15,7 @@ const NavLink = ({ children, style, icon, ...props }) => {
 
   return (
     <Link {...props}>
-      <a className={className}>
+      <a className={className} onClick={clickAction}>
         <FontAwesomeIcon
           className="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150"
           icon={icon}
@@ -27,14 +27,19 @@ const NavLink = ({ children, style, icon, ...props }) => {
   );
 };
 
-const NavLinkList = ({ style }) => {
+const NavLinkList = ({ style, clickAction }) => {
   return (
     <>
-      <NavLink href="/" style={style} icon={faHome}>
+      <NavLink href="/" style={style} icon={faHome} clickAction={clickAction}>
         Dashboard
       </NavLink>
       {/* generate linkList */}
-      <NavLink href="/raw-data" style={style} icon={faTable}>
+      <NavLink
+        href="/raw-data"
+        style={style}
+        icon={faTable}
+        clickAction={clickAction}
+      >
         Raw Data
       </NavLink>
     </>
@@ -94,7 +99,10 @@ const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
             </div>
             <div className="mt-5 flex-1 h-0 overflow-y-auto">
               <nav className="px-2 space-y-1">
-                <NavLinkList style={linkStyleMobile} />
+                <NavLinkList
+                  style={linkStyleMobile}
+                  clickAction={closeMobileMenu}
+                />
               </nav>
             </div>
           </div>
