@@ -3,7 +3,11 @@ import Link from 'next/link';
 import { Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTable } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome,
+  faTable,
+  faAngleRight,
+} from '@fortawesome/free-solid-svg-icons';
 
 const NavLink = ({ children, style, icon, clickAction, ...props }) => {
   const { asPath } = useRouter();
@@ -27,13 +31,25 @@ const NavLink = ({ children, style, icon, clickAction, ...props }) => {
   );
 };
 
-const NavLinkList = ({ style, clickAction }) => {
+const NavLinkList = ({ style, clickAction, locations }) => {
   return (
     <>
       <NavLink href="/" style={style} icon={faHome} clickAction={clickAction}>
         Dashboard
       </NavLink>
-      {/* generate linkList */}
+      <div className="py-3">
+        {locations.map((loc) => (
+          <NavLink
+            href={`/locations/${loc.id}`}
+            key={loc.id}
+            style={style}
+            icon={faAngleRight}
+            clickAction={clickAction}
+          >
+            {loc.name}
+          </NavLink>
+        ))}
+      </div>
       <NavLink
         href="/raw-data"
         style={style}
@@ -46,7 +62,7 @@ const NavLinkList = ({ style, clickAction }) => {
   );
 };
 
-const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
+const Sidebar = ({ isMobileMenuOpen, closeMobileMenu, locations }) => {
   const linkStyle = {
     active:
       'group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-900 rounded-md bg-gray-100 hover:text-gray-900 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 transition ease-in-out duration-150',
@@ -67,7 +83,6 @@ const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
           <div className="fixed inset-0">
             <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
           </div>
-
           <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-white">
             <div className="absolute top-0 right-0 -mr-14 p-1">
               <button
@@ -102,6 +117,7 @@ const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
                 <NavLinkList
                   style={linkStyleMobile}
                   clickAction={closeMobileMenu}
+                  locations={locations}
                 />
               </nav>
             </div>
@@ -112,7 +128,6 @@ const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
           </div>
         </div>
       </div>
-
       {/* <!-- Static sidebar for desktop --> */}
       <div className="hidden md:flex md:flex-shrink-0">
         <div className="flex flex-col w-64">
@@ -127,7 +142,7 @@ const Sidebar = ({ isMobileMenuOpen, closeMobileMenu }) => {
             </div>
             <div className="mt-5 flex-grow flex flex-col">
               <nav className="flex-1 px-2 bg-white space-y-1">
-                <NavLinkList style={linkStyle} />
+                <NavLinkList style={linkStyle} locations={locations} />
               </nav>
             </div>
           </div>
